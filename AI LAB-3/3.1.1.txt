@@ -1,0 +1,194 @@
+PROMPT ENGINEERING FOR CUSTOMER EMAIL CLASSIFICATION
+
+1. AIM
+
+To classify customer emails into Billing, Technical Support, Feedback, and Others using an existing Large Language Model (LLM), without training a new machine learning model.
+
+2. EMAIL CATEGORIES
+
+Billing: Questions or problems related to payments, invoices, refunds, subscriptions, or charges.
+Technical Support: Problems related to software, applications, login, errors, or other technical issues.
+Feedback: Customer opinions, suggestions, reviews, or comments about the product or service.
+Others: Emails that do not clearly belong to the first three categories.
+
+3. FIVE SAMPLE CUSTOMER EMAILS
+
+1. Email: I was charged twice for my monthly subscription. Please refund the extra payment.
+   Category: Billing
+
+2. Email: I cannot log into my account because the password reset link is not working.
+   Category: Technical Support
+
+3. Email: I really like the new dashboard design. It is much easier to use than before.
+   Category: Feedback
+
+4. Email: Can you tell me more about the features included in your premium plan?
+   Category: Others
+
+5. Email: My invoice shows a different amount than I expected to pay this month.
+   Category: Billing
+
+4. ZERO-SHOT PROMPTING
+
+Definition:
+Zero-shot prompting asks the LLM to perform the classification task without giving it any labeled examples. The model receives only the instructions and category names.
+
+Prompt:
+Classify the following customer email into exactly one of these categories:
+- Billing
+- Technical Support
+- Feedback
+- Others
+
+Read the email carefully and return only the category name.
+
+Customer email: I cannot access my account because the password reset link keeps showing an error.
+
+Output:
+Technical Support
+
+Explanation:
+The email describes a problem with account access and a password reset link. It is therefore a Technical Support email.
+
+5. ONE-SHOT PROMPTING
+
+Definition:
+One-shot prompting gives the LLM one labeled example before asking it to classify a new email. The example demonstrates the expected task and output format.
+
+Prompt:
+Classify customer emails into exactly one of these categories:
+- Billing
+- Technical Support
+- Feedback
+- Others
+
+Example:
+Email: I was charged twice for my subscription this month. Please refund the extra charge.
+Category: Billing
+
+Now classify this new email:
+Email: The application crashes whenever I try to upload a document.
+
+Return only the category name.
+
+Output:
+Technical Support
+
+Explanation:
+The new email describes an application crash during file upload, which is a technical problem.
+
+6. FEW-SHOT PROMPTING
+
+Definition:
+Few-shot prompting gives the LLM two or more labeled examples. These examples demonstrate the differences between the available categories.
+
+Prompt:
+Classify customer emails into exactly one of these categories:
+- Billing
+- Technical Support
+- Feedback
+- Others
+
+Example 1:
+Email: My credit card was charged twice for the same subscription.
+Category: Billing
+
+Example 2:
+Email: The mobile application crashes whenever I try to open it.
+Category: Technical Support
+
+Example 3:
+Email: The new interface looks much cleaner and is easier to navigate.
+Category: Feedback
+
+Now classify this new email:
+Email: Could you explain what features are included in the premium plan?
+
+Return only the category name.
+
+Output:
+Others
+
+Explanation:
+The email asks for information about a premium plan. It does not describe a payment problem, technical issue, or opinion about the service, so it belongs to Others.
+
+7. COMPARISON OF OUTPUTS
+
++----------------------+-----------------------------------------------+------------------+
+| Prompting technique  | New email                                     | Output           |
++----------------------+-----------------------------------------------+------------------+
+| Zero-shot            | Password reset link shows an error            | Technical Support|
+| One-shot             | Application crashes during document upload   | Technical Support|
+| Few-shot             | Question about premium plan features         | Others           |
++----------------------+-----------------------------------------------+------------------+
+
+8. EFFECTIVENESS COMPARISON
+
+Zero-shot prompting:
+- It is the simplest and shortest approach.
+- It works well for clear and familiar emails.
+- It may be inconsistent when an email is ambiguous or when category definitions are unclear.
+
+One-shot prompting:
+- It gives the model an example of the expected classification and output format.
+- It is usually more consistent than zero-shot prompting.
+- One example may not explain all category boundaries.
+
+Few-shot prompting:
+- It provides examples from several categories and makes the category boundaries clearer.
+- It generally gives more consistent and reliable results, especially for ambiguous emails.
+- It requires a longer prompt and several good-quality labeled examples.
+
+Overall ranking:
+Few-shot prompting > One-shot prompting > Zero-shot prompting
+
+Few-shot prompting is generally the most effective because the LLM receives more context about how different types of emails should be classified. However, actual performance depends on the quality of the examples, the clarity of the instructions, and the capabilities of the selected LLM.
+
+9. CONCLUSION
+Prompt engineering allows a company to classify customer emails without training a new machine learning model. Zero-shot prompting is quick and requires no examples. One-shot prompting provides limited guidance with one example. Few-shot prompting provides the clearest guidance by showing multiple labeled examples and is generally the most effective of the three approaches.
+
+10. ONE-SHOT PROMPTING FOR FACTORIAL
+
+Definition:
+One-shot prompting gives the AI one input-output example before asking it to generate code for a similar task.
+
+One-shot prompt:
+Write a Python function named factorial(number) that computes and returns the factorial of a given non-negative integer. The function should return 1 when number is 0, use clear variable names, and raise ValueError for negative inputs. Return only the Python function code.
+
+Example:
+Input: 5
+Output: 120
+
+Now generate the Python function for this task.
+
+Expected generated code:
+def factorial(number):
+   if number < 0:
+      raise ValueError("number must be non-negative")
+   result = 1
+   for value in range(2, number + 1):
+      result *= value
+   return result
+
+11. ZERO-SHOT SOLUTION
+
+Zero-shot prompt:
+Write a Python function named factorial(number) that computes and returns the factorial of a given number. Return only the Python function code.
+
+Possible zero-shot solution:
+def factorial(number):
+   if number == 0:
+      return 1
+   return number * factorial(number - 1)
+
+12. COMPARISON OF GENERATED CODE
+
+Clarity:
+The one-shot prompt is clearer because it specifies the function name, input type, output behavior for 0, handling of negative inputs, and the required response format. Its iterative code uses descriptive names such as result and value. The zero-shot prompt leaves these decisions to the AI, so the recursive solution is concise but provides less guidance and may be harder for beginners to follow.
+
+Correctness:
+Both solutions correctly compute factorials for non-negative integers. The one-shot solution explicitly rejects negative inputs and avoids recursion, so it also avoids recursion-depth problems for large inputs. The zero-shot solution has no negative-input requirement; for a negative number it recurses indefinitely until Python raises RecursionError. The one-shot prompt therefore produces a more robust and predictable function.
+
+Conclusion:
+Compared with the zero-shot solution, the one-shot prompt improves clarity by demonstrating the expected input-output relationship and improves correctness by defining edge-case behavior. The generated iterative function is slightly longer, but it is easier to understand and safer for a wider range of valid inputs.
+

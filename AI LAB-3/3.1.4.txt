@@ -1,0 +1,64 @@
+Question 4: Context-Managed Prompting (Optimized Number Classification)
+
+Context-managed prompt
+-----------------------
+You are an expert Python developer. Write a clear, efficient Python 3 program
+that classifies one user-supplied integer as prime, composite, or neither.
+
+Constraints:
+1. Accept only a valid integer; reject empty, decimal, or non-numeric input
+   with a helpful message and do not crash.
+2. Define neither as numbers less than 2 (0, 1, and negative integers).
+3. Classify 2 as prime. For larger candidates, reject even numbers and test
+   only odd divisors through sqrt(n), stopping as soon as one divides n.
+4. Use functions, meaningful names, and a main guard. Do not use external
+   libraries or trial division up to n - 1.
+5. Explain the time and space complexity briefly.
+
+Optimized Python program
+------------------------
+def classify_number(value):
+	"""Return 'prime', 'composite', or 'neither' for an integer."""
+	if value < 2:
+		return "neither"
+	if value == 2:
+		return "prime"
+	if value % 2 == 0:
+		return "composite"
+
+	divisor = 3
+	while divisor * divisor <= value:
+		if value % divisor == 0:
+			return "composite"
+		divisor += 2
+	return "prime"
+
+
+def main():
+	raw_value = input("Enter an integer: ").strip()
+	digits = raw_value[1:] if raw_value[:1] in "+-" else raw_value
+	if not digits or not digits.isascii() or not digits.isdigit():
+		print("Invalid input: please enter a whole integer.")
+		return
+	number = int(raw_value)
+
+	print(f"{number} is {classify_number(number)}.")
+
+
+if __name__ == "__main__":
+	main()
+
+Complexity
+----------
+The optimized test uses O(sqrt(n)) trial divisions in the worst case and
+O(1) extra space. It often finishes earlier because it stops at the first
+factor and skips all even divisors.
+
+Comparison with earlier prompting strategies
+----------------------------------------------
+An unstructured prompt commonly produces code that lacks validation, checks
+every number from 2 through n - 1, or mishandles values below 2. A basic
+prompt may produce a correct solution but omit edge cases and complexity.
+This context-managed prompt explicitly supplies the role, requirements,
+constraints, edge cases, optimization rules, and output expectations, making
+the generated program more reliable, efficient, and easier to evaluate.

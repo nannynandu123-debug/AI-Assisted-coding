@@ -1,0 +1,114 @@
+(Question 3: Few-Shot Prompting - Armstrong Number Check)
+
+1. AIM
+
+To use few-shot prompting to guide an AI in generating a Python function that checks whether a given non-negative integer is an Armstrong number.
+
+2. FEW-SHOT PROMPT
+
+Write a Python function named is_armstrong(number) that returns exactly one of these strings:
+- "Armstrong Number"
+- "Not an Armstrong Number"
+
+An Armstrong number is a non-negative integer equal to the sum of each of its digits raised to the power of the total number of digits. The function must raise TypeError for non-integer inputs and ValueError for negative integers. Return only the Python function code.
+
+Examples:
+Input: 153
+Output: Armstrong Number
+
+Input: 370
+Output: Armstrong Number
+
+Input: 123
+Output: Not an Armstrong Number
+
+Now generate the Python function for this task.
+
+3. EXPECTED GENERATED CODE
+
+def is_armstrong(number):
+	if type(number) is not int:
+		raise TypeError("number must be an integer")
+	if number < 0:
+		raise ValueError("number must be non-negative")
+
+	digits = str(number)
+	digit_count = len(digits)
+	digit_power_sum = sum(int(digit) ** digit_count for digit in digits)
+
+	if digit_power_sum == number:
+		return "Armstrong Number"
+	return "Not an Armstrong Number"
+
+4. HOW MULTIPLE EXAMPLES INFLUENCE THE CODE
+
+The two positive examples, 153 and 370, show that the function must recognize different three-digit Armstrong numbers rather than hard-code one result. The negative example, 123, shows that the function must calculate and compare the digit-power sum instead of returning Armstrong Number for every three-digit input.
+
+Together, the examples encourage the AI to create a general algorithm that:
+- converts the number into individual digits;
+- counts the digits to determine the exponent;
+- raises every digit to that exponent;
+- adds the results and compares the sum with the original number; and
+- returns one consistent output label.
+
+The examples improve accuracy by clarifying both positive and negative cases. However, examples alone do not define behavior for zero, negative numbers, decimals, strings, or Boolean values, so the prompt states those requirements explicitly.
+
+5. BOUNDARY AND INVALID-INPUT TESTS
+
+Test cases:
+- 0 -> Armstrong Number (smallest valid non-negative integer)
+- 1 -> Armstrong Number (single-digit boundary)
+- 10 -> Not an Armstrong Number (smallest two-digit non-Armstrong value)
+- 153 -> Armstrong Number
+- 9474 -> Armstrong Number (a four-digit Armstrong number)
+- -153 -> ValueError (invalid negative integer)
+- 153.0 -> TypeError (invalid decimal input)
+- "153" -> TypeError (invalid string input)
+- True -> TypeError (Boolean input is rejected explicitly)
+
+The function correctly handles valid boundary values because 0 and every single-digit number are Armstrong numbers: each digit is raised to the first power. It rejects invalid inputs instead of silently converting them, which makes errors visible to the caller.
+
+6. CONCLUSION
+
+Few-shot prompting provides examples of both outcomes and encourages a general digit-processing solution. Compared with a prompt containing only the task description, the multiple examples make the expected labels and classification boundary clearer. Explicit requirements for boundary and invalid inputs are still necessary because the three examples do not cover those cases.
+Question 3: Few-Shot Prompting (Armstrong Number Check)
+
+Few-shot prompt:
+
+"Write a Python function named check_armstrong(number). Return 'Armstrong Number'
+if the number equals the sum of its digits raised to the power of the number of
+digits; otherwise return 'Not an Armstrong Number'. Return 'Invalid Input' for
+non-integers and negative numbers.
+
+Examples:
+Input: 153 -> Output: Armstrong Number
+Input: 370 -> Output: Armstrong Number
+Input: 123 -> Output: Not an Armstrong Number
+
+Generate the function and test it with boundary values and invalid inputs."
+
+Python function:
+
+def check_armstrong(number):
+	if isinstance(number, bool) or not isinstance(number, int) or number < 0:
+		return "Invalid Input"
+
+	digits = str(number)
+	power = len(digits)
+	total = sum(int(digit) ** power for digit in digits)
+	return "Armstrong Number" if total == number else "Not an Armstrong Number"
+
+
+# Boundary and invalid-input tests
+tests = [0, 9, 10, 153, 370, 123, 9474, -153, 12.5, "153", True]
+for value in tests:
+	print(value, "->", check_armstrong(value))
+
+# Expected: 0, 9, 153, 370, and 9474 are Armstrong numbers;
+# 10 and 123 are not; negative, float, string, and Boolean inputs are invalid.
+
+Analysis:
+Multiple examples establish the exact output format and show both positive and
+negative cases. They guide the code toward digit extraction, counting digits,
+and exponentiation. Boundary and invalid-input examples make the function more
+robust and reduce ambiguity in the generated solution.

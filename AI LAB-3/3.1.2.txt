@@ -1,0 +1,289 @@
+problem statement;A company receives a large number of customer emails every day and wants to automatically classify them into the following categories:
+Billing
+Technical Support
+Feedback
+Others
+Instead of training a new machine learning model, the company decides to use prompt engineering techniques with an existing large language model.
+Tasks
+1.Prepare five short sample emails, each belonging to one of the above categories.
+2.Write a zero-shot prompt to classify a given email into one of the categories without providing any examples.
+3.Write a one-shot prompt by including one labeled email example and ask the model to classify a new email.
+4.Write a few-shot prompt by including two or three labeled email examples and ask the model to classify a new email.
+Compare the outputs obtained using zero-shot, one-shot, and few-shot prompting techniques and briefly comment on their effectiveness
+
+# Prompt Engineering for Customer Email Classification Using an Existing Large Language Model
+
+## 1. Aim
+
+To classify customer emails automatically into the categories **Billing, Technical Support, Feedback, and Others** using prompt engineering techniques with an existing Large Language Model (LLM), without training a new machine learning model.
+
+---
+
+## 2. Introduction
+
+Companies receive a large number of customer emails every day. Manually reading and categorizing these emails requires significant time and effort. An automated email classification system can help route emails to the appropriate department.
+
+Instead of developing and training a new machine learning model, an existing Large Language Model can be instructed to classify emails using **prompt engineering**.
+
+In this assignment, three prompting techniques are used:
+
+1. Zero-shot prompting
+2. One-shot prompting
+3. Few-shot prompting
+
+The results of these techniques are then compared.
+
+---
+
+# 3. Email Categories
+
+The customer emails are classified into four categories:
+
+* **Billing** – Questions or problems related to payments, invoices, refunds, subscriptions, or charges.
+* **Technical Support** – Problems related to software, applications, login, errors, or technical issues.
+* **Feedback** – Customer opinions, suggestions, reviews, or comments about the product or service.
+* **Others** – Emails that do not clearly belong to the above categories.
+
+---
+
+# 4. Five Sample Customer Emails
+
+| No. | Sample Customer Email                                                                         | Category          |
+| --- | --------------------------------------------------------------------------------------------- | ----------------- |
+| 1   | "I was charged twice for my monthly subscription. Please check and refund the extra payment." | Billing           |
+| 2   | "I cannot log into my account because the password reset link is not working."                | Technical Support |
+| 3   | "I really like the new dashboard design. It is much easier to use than before."               | Feedback          |
+| 4   | "Can you tell me more about the features included in your premium plan?"                      | Others            |
+| 5   | "My invoice shows a different amount than what I expected to pay this month."                 | Billing           |
+
+---
+
+# 5. Zero-Shot Prompting
+
+## Definition
+
+Zero-shot prompting means asking the LLM to perform a task **without providing any examples**. The model receives only the task instructions and the available categories.
+
+## Zero-Shot Prompt
+
+Classify the following customer email into exactly one of these categories:
+
+* Billing
+* Technical Support
+* Feedback
+* Others
+
+Read the email carefully and return only the category name.
+
+Customer Email:
+
+"I cannot access my account because the password reset link keeps showing an error."
+
+## Output
+
+**Technical Support**
+
+## Explanation
+
+The email describes a problem with accessing an account and a password reset link. Therefore, it belongs to the **Technical Support** category.
+
+---
+
+# 6. One-Shot Prompting
+
+## Definition
+
+One-shot prompting provides the LLM with **one labeled example** before asking it to classify a new email. The example demonstrates how the task should be performed.
+
+## One-Shot Prompt
+
+Classify customer emails into one of these categories:
+
+* Billing
+* Technical Support
+* Feedback
+* Others
+
+Example:
+
+Email: "I was charged twice for my subscription this month. Please refund the extra charge."
+
+Category: Billing
+
+Now classify the following email:
+
+Email: "The application crashes whenever I try to upload a document."
+
+Return only the category name.
+
+## Output
+
+**Technical Support**
+
+## Explanation
+
+The example shows the expected classification format. The new email describes an application crashing while uploading a document, which is a technical problem. Therefore, the correct category is **Technical Support**.
+
+---
+
+# 7. Few-Shot Prompting
+
+## Definition
+
+Few-shot prompting provides the LLM with **two or more labeled examples**. These examples help the model understand the differences between the available categories.
+
+## Few-Shot Prompt
+
+Classify customer emails into exactly one of these categories:
+
+* Billing
+* Technical Support
+* Feedback
+* Others
+
+Example 1:
+
+Email: "My credit card was charged twice for the same subscription."
+
+Category: Billing
+
+Example 2:
+
+Email: "The mobile application crashes whenever I try to open it."
+
+Category: Technical Support
+
+Example 3:
+
+Email: "The new interface looks much cleaner and is easier to navigate."
+
+Category: Feedback
+
+Now classify the following email:
+
+Email: "Could you explain what features are included in the premium plan?"
+
+Return only the category name.
+
+## Output
+
+**Others**
+
+## Explanation
+
+The email asks for information about a premium plan and does not describe a payment problem, technical issue, or opinion about the service. Therefore, it belongs to the **Others** category.
+
+
+# 8. Comparison of Prompting Techniques
+
+| Prompting technique | New email used | Output |
+| --- | --- | --- |
+| Zero-shot | Password reset link shows an error | Technical Support |
+| One-shot | Application crashes during document upload | Technical Support |
+| Few-shot | Question about premium plan features | Others |
+
+The outputs are reasonable because each new email matches the meaning of its predicted category. The few-shot prompt also shows all three main category boundaries through labeled examples, making it more useful when emails are ambiguous.
+
+### Zero-Shot Prompting
+
+Zero-shot prompting is the simplest technique because no examples are required. The model relies entirely on its existing knowledge and the instructions provided in the prompt.
+
+**Advantages:**
+
+* Very easy to implement.
+* Requires a short prompt.
+* Does not require labeled training examples.
+* Useful for simple and clearly defined emails.
+
+**Disadvantages:**
+
+* May produce inconsistent results for ambiguous emails.
+* The model may interpret categories differently from the company.
+
+---
+
+### One-Shot Prompting
+
+One-shot prompting provides one example to demonstrate the expected classification behavior.
+
+**Advantages:**
+
+* Helps the model understand the expected output.
+* Usually more consistent than zero-shot prompting.
+* Requires only one labeled example.
+
+**Disadvantages:**
+
+* One example may not represent all categories.
+* The model may not fully understand complex category boundaries.
+
+---
+
+### Few-Shot Prompting
+
+Few-shot prompting provides multiple examples from different categories. This gives the model a clearer understanding of the classification task.
+
+**Advantages:**
+
+* Generally produces more consistent classifications.
+* Demonstrates differences between categories.
+* Useful for ambiguous or complex emails.
+* Does not require training a new machine learning model.
+
+**Disadvantages:**
+
+* The prompt becomes longer.
+* Requires several good-quality labeled examples.
+* More examples can increase the number of tokens used.
+
+---
+
+# 10. Overall Effectiveness
+
+The three techniques can be ranked approximately as follows:
+
+**Few-shot prompting > One-shot prompting > Zero-shot prompting**
+
+Few-shot prompting is generally more effective because the LLM receives multiple examples showing how different types of emails should be classified. This reduces ambiguity and gives the model a better understanding of the expected classification behavior.
+
+However, the actual performance depends on the quality of the prompts, the quality of the examples, and the capabilities of the selected LLM.
+
+---
+
+# 11. Advantages of Using Prompt Engineering
+
+Using prompt engineering instead of training a new machine learning model provides several benefits:
+
+1. No separate model training is required.
+2. No large labeled dataset is necessary.
+3. The system can be developed quickly.
+4. Categories can be changed easily by modifying the prompt.
+5. New examples can be added without retraining a model.
+6. An existing LLM can understand natural-language customer emails.
+7. The approach can be integrated into automated customer-service systems.
+
+---
+
+# 12. Limitations
+
+Despite its advantages, prompt-based classification also has some limitations:
+
+1. LLM responses may sometimes be inconsistent.
+2. Ambiguous emails may be difficult to classify.
+3. Poorly written examples can negatively affect few-shot performance.
+4. Large prompts can increase computational cost.
+5. The system may occasionally assign an incorrect category.
+6. Sensitive customer information should be handled carefully when using external LLM services.
+
+---
+
+# 13. Conclusion
+
+Prompt engineering provides a simple way to automatically classify customer emails without training a new machine learning model.
+
+In **zero-shot prompting**, the model receives only the instructions and categories. In **one-shot prompting**, one labeled example is provided to guide the model. In **few-shot prompting**, multiple labeled examples are provided, giving the model a clearer understanding of the classification task.
+
+Among the three techniques, **few-shot prompting is generally the most effective** because it provides more context and demonstrates how different categories should be handled. Zero-shot prompting is useful when simplicity is important, while one-shot prompting provides a balance between simplicity and guidance.
+
+Therefore, an existing LLM combined with carefully designed prompts can be used as an efficient customer-email classification system for categories such as **Billing, Technical Support, Feedback, and Others**.
+

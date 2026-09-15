@@ -1,0 +1,84 @@
+Question 5: Zero-Shot Prompting (Perfect Number Check)
+Write a zero-shot prompt (without providing any examples) to generate a Python function that checks whether a given number is a perfect number.
+Task:
+Record the AI-generated code.
+Test the program with multiple inputs.
+Identify any missing conditions or inefficiencies in the logic.
+
+1. ZERO-SHOT PROMPT
+
+Write a Python function named is_perfect_number(number) that checks whether
+the given number is a perfect number. A perfect number is a positive integer
+that is equal to the sum of its proper positive divisors, excluding the number
+itself. Return True if it is perfect and False otherwise. Return only the
+Python function code and do not use external libraries.
+
+No examples are provided because this is a zero-shot prompt.
+
+2. RECORDED AI-GENERATED CODE
+
+def is_perfect_number(number):
+		divisor_sum = 0
+		for divisor in range(1, number):
+				if number % divisor == 0:
+						divisor_sum += divisor
+		return divisor_sum == number
+
+3. TESTING WITH MULTIPLE INPUTS
+
+Test code:
+
+test_values = [1, 2, 6, 10, 28, 496, 12, 0, -6]
+for value in test_values:
+		print(value, is_perfect_number(value))
+
+Observed output:
+
+1 False
+2 False
+6 True
+10 False
+28 True
+496 True
+12 False
+0 True
+-6 False
+
+The function correctly identifies common perfect numbers such as 6, 28, and
+496, and correctly rejects non-perfect positive numbers such as 1, 2, 10, and
+12.
+
+4. MISSING CONDITIONS
+
+- The function does not validate the input type. Strings, floating-point
+	values, and other non-integer values can cause TypeError or produce
+	unintended behavior.
+- Negative numbers and zero are not explicitly rejected, even though a
+	perfect number must be a positive integer. In particular, this code
+	incorrectly returns True for zero because its empty divisor sum is zero.
+	These values should return False or be rejected with a clear exception
+	according to the chosen function contract.
+- Boolean values are subclasses of int in Python, so True would be treated as
+	the number 1 unless the implementation explicitly rejects Boolean input.
+- The function has no documentation or type hints to state its expected input
+	and output.
+
+5. INEFFICIENCIES IN THE LOGIC
+
+- The loop checks every integer from 1 through number - 1. This gives O(n)
+	time complexity, which is unnecessarily slow for large inputs.
+- Divisors occur in pairs. The function can check only up to the square root
+	of the number, add both divisors when a factor is found, and avoid counting
+	the number itself.
+- For an even number larger than 2, the function could reject it early when
+	appropriate, although checking divisors up to its square root is the more
+	generally useful optimization.
+- The function could return early when the running divisor sum becomes larger
+	than the number.
+
+6. IMPROVED LOGIC
+
+An improved implementation should first require a positive integer, reject
+Boolean values, return False for 1, and inspect divisor pairs only through the
+square root. This reduces the worst-case time complexity to O(sqrt(n)) and
+uses O(1) extra space while preserving the same results for valid inputs.

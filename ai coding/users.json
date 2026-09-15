@@ -1,0 +1,8 @@
+[
+    {
+        "name": "sai",
+        "email": "hello@gmail.com",
+        "salt": "570cbbbe3bf28c90148bb613855eb6a6",
+        "password_hash": "fd2f6d7f97edc2d4f9b82adb2d162bd8c579f0b576843e3d090072c904361a19"
+    }
+]
